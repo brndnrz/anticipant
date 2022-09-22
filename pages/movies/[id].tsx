@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useGlobalContext } from "../../context";
-import supabase from "../../supa";
 import { GetStaticPaths } from "next";
 
 interface Movie {
@@ -225,9 +224,9 @@ export default function Movie({
 }: {
   movie: Movie;
   official: any;
-  sliced: [{ profile_path: string; name: string }];
+  sliced: [{ profile_path?: string; name?: string }];
   director: Cast;
-  officialReleaseDate: string;
+  officialReleaseDate?: string;
 }) {
   const imgApi = "https://image.tmdb.org/t/p/w1280";
   const { title, id, poster_path, overview } = movie;
