@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import MovieCover from "../components/MovieCover";
+import { GetStaticPaths } from "next";
 
 interface Movie {
   adult: boolean;
@@ -38,7 +39,7 @@ let nextYear = (parseInt(newDate[0]) + 1).toString();
 
 let formattedDate = newDate.join("-");
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const pageNumbers = [2, 3, 4, 5];
 
   const paths = pageNumbers.map((num) => {

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useGlobalContext } from "../../context";
 import supabase from "../../supa";
+import { GetStaticPaths } from "next";
 
 interface Movie {
   adult: boolean;
@@ -26,7 +27,7 @@ interface Cast extends Movie {
   name: string;
 }
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   let newDate = new Date()
     .toLocaleDateString("en-us", {
       year: "numeric",
