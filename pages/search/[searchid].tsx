@@ -278,16 +278,16 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const id = context.params.searchid;
   const [movieRes, videoRes, creditsRes, releaseRes] = await Promise.all([
     fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.API_KEY}&language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US`
     ),
     fetch(
-      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.API_KEY}&language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US`
     ),
     fetch(
-      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.API_KEY}&language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US`
     ),
     fetch(
-      `https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${process.env.API_KEY}`
+      `https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=9253459cb35b70dac2252ffa068d5a6a`
     ),
   ]);
   const [movie, video, credits, release] = await Promise.all([
