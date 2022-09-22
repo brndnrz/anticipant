@@ -216,13 +216,13 @@ const toBase64 = (str: string) =>
     : window.btoa(str);
 
 export default function Movie({
-  movie,
+  movie = null,
   official,
   sliced,
   director,
   officialReleaseDate,
 }: {
-  movie: Movie;
+  movie: any;
   official: any;
   sliced: [{ profile_path?: string; name?: string }];
   director: Cast;
