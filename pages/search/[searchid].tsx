@@ -62,6 +62,7 @@ export default function Movie({
 }) {
   const imgApi = "https://image.tmdb.org/t/p/w1280";
   const { id, poster_path, overview } = movie;
+
   // const [showAll, setShowAll] = useState(false);
   if (officialReleaseDate == "Date") {
     officialReleaseDate =
@@ -79,9 +80,9 @@ export default function Movie({
             className="w-[400px] h-[500px] mb-[50px] flex flex-col  md:w-[50%] md:h-[50%] md:mb-[80px] md:order-1 md:flex-initial"
           >
             <div className="w-[80%] h-full self-center">
-              {!!poster_path ? (
+              {poster_path === null ? (
                 <Image
-                  src={imgApi + poster_path}
+                  src="/coming_soon.jpg"
                   className="object-cover w-full h-full border-none"
                   width={500}
                   height={700}
@@ -90,7 +91,7 @@ export default function Movie({
                 />
               ) : (
                 <Image
-                  src="/coming_soon.jpg"
+                  src={imgApi + poster_path}
                   className="object-cover w-full h-full border-none"
                   width={500}
                   height={700}
@@ -129,21 +130,8 @@ export default function Movie({
             <p className="pb-[10px] text-[18px] leading-6">{overview}</p>
           </div>
           <div className="mt-[30px] mx-0 mb-[100px] px-[30px] w-screen h-[500px] bg-white/5 text-center flex items-center gap-[30px] order-4 overflow-x-auto md:order-4">
-            <div className="text-center flex  flex-col shrink-0 grow justify-center w-[180px] h-[80%]">
-              {!!director.profile_path ? (
-                <Image
-                  src={imgApi + director.profile_path}
-                  className="object-cover h-[60%] rounded-tl-[10px] rounded-tr-[10px]"
-                  layout="responsive"
-                  placeholder="blur"
-                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                    shimmer(700, 475)
-                  )}`}
-                  width={500}
-                  height={800}
-                  alt="Movie Director"
-                />
-              ) : (
+            {director === null ? (
+              <div className="text-center flex  flex-col shrink-0 grow justify-center w-[180px] h-[80%]">
                 <Image
                   src="/ghost.jpg"
                   className="object-cover h-[60%] rounded-tl-[10px] rounded-tr-[10px]"
@@ -156,25 +144,41 @@ export default function Movie({
                   height={800}
                   alt="Movie Director"
                 />
-              )}
-              <div className="h-[40%] pt-[20px] bg-white/5 rounded-bl-[10px] rounded-br-[10px]">
-                <h3 className="text-[18px] text-white">Director</h3>
-                {!!director ? (
-                  <h3 className="text-[18px] text-white">{director.name}</h3>
-                ) : (
+                <div className="h-[40%] pt-[20px] bg-white/5 rounded-bl-[10px] rounded-br-[10px]">
+                  <h3 className="text-[18px] text-white">Director</h3>
                   <h3>No Director Announced</h3>
-                )}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="text-center flex  flex-col shrink-0 grow justify-center w-[180px] h-[80%]">
+                <Image
+                  src={imgApi + director.profile_path}
+                  className="object-cover h-[60%] rounded-tl-[10px] rounded-tr-[10px]"
+                  layout="responsive"
+                  placeholder="blur"
+                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                    shimmer(700, 475)
+                  )}`}
+                  width={500}
+                  height={800}
+                  alt="Movie Director"
+                />
+                <div className="h-[40%] pt-[20px] bg-white/5 rounded-bl-[10px] rounded-br-[10px]">
+                  <h3 className="text-[18px] text-white">Director</h3>
+
+                  <h3 className="text-[18px] text-white">{director.name}</h3>
+                </div>
+              </div>
+            )}
             {sliced.map((actor, index) => {
               return (
                 <div
                   key={index}
                   className="text-center flex  flex-col shrink-0 grow justify-center w-[180px] h-[80%]"
                 >
-                  {!!actor.profile_path ? (
+                  {actor.profile_path === null ? (
                     <Image
-                      src={imgApi + actor.profile_path}
+                      src="/ghost.jpg"
                       className="object-cover h-[60%] rounded-tl-[10px] rounded-tr-[10px]"
                       layout="responsive"
                       placeholder="blur"
@@ -187,7 +191,7 @@ export default function Movie({
                     />
                   ) : (
                     <Image
-                      src="/ghost.jpg"
+                      src={imgApi + actor.profile_path}
                       className="object-cover h-[60%] rounded-tl-[10px] rounded-tr-[10px]"
                       layout="responsive"
                       placeholder="blur"
@@ -201,10 +205,10 @@ export default function Movie({
                   )}
                   <div className="h-[40%] pt-[20px] bg-white/5 rounded-bl-[10px] rounded-br-[10px]">
                     <h3 className="text-[18px] text-white">Cast</h3>
-                    {!!actor ? (
-                      <h3 className="text-[18px] text-white">{actor.name}</h3>
-                    ) : (
+                    {actor === null ? (
                       <h3>Uncast</h3>
+                    ) : (
+                      <h3 className="text-[18px] text-white">{actor.name}</h3>
                     )}
                   </div>
                 </div>

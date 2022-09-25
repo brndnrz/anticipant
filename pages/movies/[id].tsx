@@ -26,6 +26,25 @@ interface Cast extends Movie {
   name: string;
 }
 
+const shimmer = (w: number, h: number) => `
+<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#333" offset="20%" />
+      <stop stop-color="#222" offset="50%" />
+      <stop stop-color="#333" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="#333" />
+  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+</svg>`;
+
+const toBase64 = (str: string) =>
+  typeof window === "undefined"
+    ? Buffer.from(str).toString("base64")
+    : window.btoa(str);
+
 export default function Movie({
   movie,
   official,
@@ -52,25 +71,6 @@ export default function Movie({
 
   const { handleUnSave, user, userUID } = useGlobalContext();
 
-  const shimmer = (w: number, h: number) => `
-<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <defs>
-    <linearGradient id="g">
-      <stop stop-color="#333" offset="20%" />
-      <stop stop-color="#222" offset="50%" />
-      <stop stop-color="#333" offset="70%" />
-    </linearGradient>
-  </defs>
-  <rect width="${w}" height="${h}" fill="#333" />
-  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
-  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
-</svg>`;
-
-  const toBase64 = (str: string) =>
-    typeof window === "undefined"
-      ? Buffer.from(str).toString("base64")
-      : window.btoa(str);
-
   // const checkRowStatus = async () => {
   //   let { data: usersSavedMovies, error } = await supabase
   //     .from("usersSavedMovies")
@@ -89,186 +89,182 @@ export default function Movie({
     // }
   };
 
-  // return (
-  //   <>
-  //     <div className="pageWrapper">
-  //       <div className="flex flex-col items-center w-screen md:flex-row md:flex-wrap md:mt-[40px] md:w-[90vw] ">
-  //         <div
-  //           key={id}
-  //           className="w-[400px] h-[500px] mb-[50px] flex flex-col items-center justify-center md:w-[50%] md:h-[50%] md:mb-[80px] md:order-1 md:flex-initial "
-  //         >
-  //           <div className="w-[80%] h-full ">
-  //             {poster_path === null ? (
-  //               <Image
-  //                 src="/coming_soon.jpg"
-  //                 className="object-cover w-full h-full border-none"
-  //                 width={500}
-  //                 height={700}
-  //                 layout="responsive"
-  //                 alt={`${title} Movie Cover`}
-  //               />
-  //             ) : (
-  //               <Image
-  //                 src={imgApi + poster_path}
-  //                 className="object-cover w-full h-full border-none"
-  //                 width={500}
-  //                 height={700}
-  //                 layout="responsive"
-  //                 alt={`${title} Movie Cover`}
-  //               />
-  //             )}
-  //           </div>
-  //           {user && showButton ? (
-  //             <button
-  //               onClick={() => handleSave(id)}
-  //               className="tooltip tooltip-bottom tooltip-success font-bold text-center bg-gradient-to-r from-yellow-300 to-yellow-500 text-black  rounded-[20px] p-[5px] w-[50%] h-[20%] mx-auto mt-[20px] cursor-pointer "
-  //               data-tip="Save Movie To Profile"
-  //             >
-  //               Anticipate
-  //             </button>
-  //           ) : (
-  //             ""
-  //           )}
-  //           {saved === true ? (
-  //             <button
-  //               onClick={() => handleUnSave(id)}
-  //               className="tooltip tooltip-bottom tooltip-error font-bold bg-gradient-to-t from-green-400 to-green-600 text-black w-[50%] h-[20%] mx-auto mt-[20px] p-[5px] rounded-[20px]  text-center hover:bg-gradient-to-t hover:from-rose-400 hover:to-rose-600"
-  //               data-tip="Remove Movie From Profile?"
-  //             >
-  //               Saved!
-  //             </button>
-  //           ) : (
-  //             ""
-  //           )}
-  //         </div>
-
-  //         <div className="p-[50px] mt-0 mb-[70px] text-white text-center bg-white/5 md:w-[50%] md:ml-auto md:mr-auto md:order-2 md:flex-initial">
-  //           <h1 className="text-[24px] mb-[5px]">{title}</h1>
-  //           <p className="text-[12px] mt-0 mb-[20px] opacity-[.8] md:text-[16px] ">
-  //             {officialReleaseDate}
-  //           </p>
-  //           <p className="pb-[10px] text-[18px] leading-6">{overview}</p>
-  //         </div>
-
-  //         <div className="mt-[30px] mx-0 mb-[100px] px-[30px] w-screen h-[500px] bg-white/5 text-center flex items-center gap-[30px] order-4 overflow-x-auto md:order-4">
-  //           <div className="text-center flex  flex-col shrink-0 grow justify-center w-[180px] h-[80%]">
-  //             {director.profile_path === null ? (
-  //               <Image
-  //                 src="/ghost.jpg"
-  //                 className="object-cover h-[60%] rounded-tl-[10px] rounded-tr-[10px]"
-  //                 layout="responsive"
-  //                 placeholder="blur"
-  //                 blurDataURL={`data:image/svg+xml;base64,${toBase64(
-  //                   shimmer(700, 475)
-  //                 )}`}
-  //                 width={500}
-  //                 height={800}
-  //                 alt="Director"
-  //               />
-  //             ) : (
-  //               <Image
-  //                 src={imgApi + director.profile_path}
-  //                 className="object-cover h-[60%] rounded-tl-[10px] rounded-tr-[10px]"
-  //                 layout="responsive"
-  //                 placeholder="blur"
-  //                 blurDataURL={`data:image/svg+xml;base64,${toBase64(
-  //                   shimmer(700, 475)
-  //                 )}`}
-  //                 width={500}
-  //                 height={800}
-  //                 alt="Director"
-  //               />
-  //             )}
-
-  //             <div className="h-[40%] pt-[20px] bg-white/5 rounded-bl-[10px] rounded-br-[10px]">
-  //               <h3 className="text-[18px] text-white">Director</h3>
-  //               {director === null ? (
-  //                 <h3>No Director Announced</h3>
-  //               ) : (
-  //                 <h3 className="text-[18px] text-white">{director.name}</h3>
-  //               )}
-  //             </div>
-  //           </div>
-  //           {sliced.map((actor: any, index: number) => {
-  //             return (
-  //               <div
-  //                 key={index}
-  //                 className="text-center flex  flex-col shrink-0 grow justify-center w-[180px] h-[80%]"
-  //               >
-  //                 {actor.profile_path === null ? (
-  //                   <Image
-  //                     src="/ghost.jpg"
-  //                     className="object-cover h-[60%] rounded-tl-[10px] rounded-tr-[10px]"
-  //                     layout="responsive"
-  //                     placeholder="blur"
-  //                     blurDataURL={`data:image/svg+xml;base64,${toBase64(
-  //                       shimmer(700, 475)
-  //                     )}`}
-  //                     width={500}
-  //                     height={800}
-  //                     alt="Actor"
-  //                   />
-  //                 ) : (
-  //                   <Image
-  //                     src={imgApi + actor.profile_path}
-  //                     className="object-cover h-[60%] rounded-tl-[10px] rounded-tr-[10px]"
-  //                     layout="responsive"
-  //                     placeholder="blur"
-  //                     blurDataURL={`data:image/svg+xml;base64,${toBase64(
-  //                       shimmer(700, 475)
-  //                     )}`}
-  //                     width={500}
-  //                     height={800}
-  //                     alt="Actor"
-  //                   />
-  //                 )}
-  //                 <div className="h-[40%] pt-[20px] bg-white/5 rounded-bl-[10px] rounded-br-[10px]">
-  //                   <h3 className="text-[18px] text-white">Cast</h3>
-  //                   {actor === null ? (
-  //                     <h3>Uncast</h3>
-  //                   ) : (
-  //                     <h3 className="text-[18px] text-white">{actor.name}</h3>
-  //                   )}
-  //                 </div>
-  //               </div>
-  //             );
-  //           })}
-  //         </div>
-
-  //         <div className="bg-white/5 w-screen h-[500px] mb-[50px] flex justify-center items-center overflow-hidden md:order-3 md:mt-[50px] md:mb-[40px]">
-  //           {official === null ? (
-  //             <div className="text-white mt-[50px] text-[20px] text-center ml-auto mr-auto w-[50%]">
-  //               <h2>Stay Tuned!</h2>
-  //               <p className="font-bold text-white mt-[10px]">
-  //                 An Official Trailer Hasn&#39;t Been Released For This Movie
-  //                 Yet
-  //               </p>
-  //             </div>
-  //           ) : (
-  //             <div>
-  //               <iframe
-  //                 width="450"
-  //                 height="250"
-  //                 src={`https://www.youtube.com/embed/${official.key}`}
-  //                 title="YouTube Video Player"
-  //                 className="md:w-[550px] md:h-[350px]"
-  //                 frameBorder="0"
-  //                 allow="accelerometer; autoplay; clipboard-write;
-  //                           encrypted-media; gyroscope; picture-in-picture"
-  //                 allowFullScreen
-  //               ></iframe>
-  //             </div>
-  //           )}
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </>
-  // );
-
   return (
-    <div>
-      <h1>im a movie</h1>
-    </div>
+    <>
+      <div className="pageWrapper">
+        <div className="flex flex-col items-center w-screen md:flex-row md:flex-wrap md:mt-[40px] md:w-[90vw] ">
+          <div
+            key={id}
+            className="w-[400px] h-[500px] mb-[50px] flex flex-col items-center justify-center md:w-[50%] md:h-[50%] md:mb-[80px] md:order-1 md:flex-initial "
+          >
+            <div className="w-[80%] h-full ">
+              {poster_path === null ? (
+                <Image
+                  src="/coming_soon.jpg"
+                  className="object-cover w-full h-full border-none"
+                  width={500}
+                  height={700}
+                  layout="responsive"
+                  alt={`${title} Movie Cover`}
+                />
+              ) : (
+                <Image
+                  src={imgApi + poster_path}
+                  className="object-cover w-full h-full border-none"
+                  width={500}
+                  height={700}
+                  layout="responsive"
+                  alt={`${title} Movie Cover`}
+                />
+              )}
+            </div>
+            {user && showButton ? (
+              <button
+                onClick={() => handleSave(id)}
+                className="tooltip tooltip-bottom tooltip-success font-bold text-center bg-gradient-to-r from-yellow-300 to-yellow-500 text-black  rounded-[20px] p-[5px] w-[50%] h-[20%] mx-auto mt-[20px] cursor-pointer "
+                data-tip="Save Movie To Profile"
+              >
+                Anticipate
+              </button>
+            ) : (
+              ""
+            )}
+            {saved === true ? (
+              <button
+                onClick={() => handleUnSave(id)}
+                className="tooltip tooltip-bottom tooltip-error font-bold bg-gradient-to-t from-green-400 to-green-600 text-black w-[50%] h-[20%] mx-auto mt-[20px] p-[5px] rounded-[20px]  text-center hover:bg-gradient-to-t hover:from-rose-400 hover:to-rose-600"
+                data-tip="Remove Movie From Profile?"
+              >
+                Saved!
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
+
+          <div className="p-[50px] mt-0 mb-[70px] text-white text-center bg-white/5 md:w-[50%] md:ml-auto md:mr-auto md:order-2 md:flex-initial">
+            <h1 className="text-[24px] mb-[5px]">{title}</h1>
+            <p className="text-[12px] mt-0 mb-[20px] opacity-[.8] md:text-[16px] ">
+              {officialReleaseDate}
+            </p>
+            <p className="pb-[10px] text-[18px] leading-6">{overview}</p>
+          </div>
+
+          <div className="mt-[30px] mx-0 mb-[100px] px-[30px] w-screen h-[500px] bg-white/5 text-center flex items-center gap-[30px] order-4 overflow-x-auto md:order-4">
+            {director === null ? (
+              <div className="text-center flex  flex-col shrink-0 grow justify-center w-[180px] h-[80%]">
+                <Image
+                  src="/ghost.jpg"
+                  className="object-cover h-[60%] rounded-tl-[10px] rounded-tr-[10px]"
+                  layout="responsive"
+                  placeholder="blur"
+                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                    shimmer(700, 475)
+                  )}`}
+                  width={500}
+                  height={800}
+                  alt="Movie Director"
+                />
+                <div className="h-[40%] pt-[20px] bg-white/5 rounded-bl-[10px] rounded-br-[10px]">
+                  <h3 className="text-[18px] text-white">Director</h3>
+                  <h3>No Director Announced</h3>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center flex  flex-col shrink-0 grow justify-center w-[180px] h-[80%]">
+                <Image
+                  src={imgApi + director.profile_path}
+                  className="object-cover h-[60%] rounded-tl-[10px] rounded-tr-[10px]"
+                  layout="responsive"
+                  placeholder="blur"
+                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                    shimmer(700, 475)
+                  )}`}
+                  width={500}
+                  height={800}
+                  alt="Movie Director"
+                />
+                <div className="h-[40%] pt-[20px] bg-white/5 rounded-bl-[10px] rounded-br-[10px]">
+                  <h3 className="text-[18px] text-white">Director</h3>
+
+                  <h3 className="text-[18px] text-white">{director.name}</h3>
+                </div>
+              </div>
+            )}
+            {sliced.map((actor: any, index: number) => {
+              return (
+                <div
+                  key={index}
+                  className="text-center flex  flex-col shrink-0 grow justify-center w-[180px] h-[80%]"
+                >
+                  {actor.profile_path === null ? (
+                    <Image
+                      src="/ghost.jpg"
+                      className="object-cover h-[60%] rounded-tl-[10px] rounded-tr-[10px]"
+                      layout="responsive"
+                      placeholder="blur"
+                      blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                        shimmer(700, 475)
+                      )}`}
+                      width={500}
+                      height={800}
+                      alt="Actor"
+                    />
+                  ) : (
+                    <Image
+                      src={imgApi + actor.profile_path}
+                      className="object-cover h-[60%] rounded-tl-[10px] rounded-tr-[10px]"
+                      layout="responsive"
+                      placeholder="blur"
+                      blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                        shimmer(700, 475)
+                      )}`}
+                      width={500}
+                      height={800}
+                      alt="Actor"
+                    />
+                  )}
+                  <div className="h-[40%] pt-[20px] bg-white/5 rounded-bl-[10px] rounded-br-[10px]">
+                    <h3 className="text-[18px] text-white">Cast</h3>
+                    {actor === null ? (
+                      <h3>Uncast</h3>
+                    ) : (
+                      <h3 className="text-[18px] text-white">{actor.name}</h3>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="bg-white/5 w-screen h-[500px] mb-[50px] flex justify-center items-center overflow-hidden md:order-3 md:mt-[50px] md:mb-[40px]">
+            {official === null ? (
+              <div className="text-white mt-[50px] text-[20px] text-center ml-auto mr-auto w-[50%]">
+                <h2>Stay Tuned!</h2>
+                <p className="font-bold text-white mt-[10px]">
+                  An Official Trailer Hasn&#39;t Been Released For This Movie
+                  Yet
+                </p>
+              </div>
+            ) : (
+              <div>
+                <iframe
+                  width="450"
+                  height="250"
+                  src={`https://www.youtube.com/embed/${official.key}`}
+                  title="YouTube Video Player"
+                  className="md:w-[550px] md:h-[350px]"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write;
+                            encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
