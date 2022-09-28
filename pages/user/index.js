@@ -3,15 +3,6 @@ import Image from "next/image";
 const Index = () => {
   const { logUserIn, logUserOut, user } = useGlobalContext();
 
-  // useEffect(() => {
-  //   const checkUserStatus = supabase.auth.user();
-  //   if (checkUserStatus != null) {
-  //     const userMetaData = checkUserStatus.user_metadata;
-  //     setUser(userMetaData);
-  //     setUserID(checkUserStatus.identities[0].user_id);
-  //   }
-  // }, [setUser, setUserID]);
-
   if (user) {
     return (
       <>

@@ -30,38 +30,38 @@ a {
   align-items: center;
   min-width: 90vw;
   min-height: 100vh;
-  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: fadein 2s; /* Firefox < 16 */
+  /* -webkit-animation: fadein 2s; Safari, Chrome and Opera > 12.1 */
+  /* -moz-animation: fadein 2s; Firefox < 16 */
 }
 
-@keyframes fadein {
+/* @keyframes fadein {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
   }
-}
+} */
 
 /* Firefox < 16 */
-@-moz-keyframes fadein {
+/* @-moz-keyframes fadein {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
   }
-}
+} */
 
 /* Safari, Chrome and Opera > 12.1 */
-@-webkit-keyframes fadein {
+/* @-webkit-keyframes fadein {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
   }
-}
+} */
 
 @media (min-width: 900px) {
   .pageWrapper {
