@@ -1,19 +1,16 @@
 import { useGlobalContext } from "../../context";
 import Image from "next/image";
-import { useEffect } from "react";
-import supabase from "../../supa";
 const Index = () => {
-  const { logUserIn, logUserOut, user, setUser, setUserUID } =
-    useGlobalContext();
+  const { logUserIn, logUserOut, user } = useGlobalContext();
 
-  useEffect(() => {
-    const checkUserStatus = supabase.auth.user();
-    if (checkUserStatus != null) {
-      const userMetaData = checkUserStatus.user_metadata;
-      setUser(userMetaData);
-      setUserUID(checkUserStatus.identities[0].user_id);
-    }
-  }, [setUser, setUserUID]);
+  // useEffect(() => {
+  //   const checkUserStatus = supabase.auth.user();
+  //   if (checkUserStatus != null) {
+  //     const userMetaData = checkUserStatus.user_metadata;
+  //     setUser(userMetaData);
+  //     setUserID(checkUserStatus.identities[0].user_id);
+  //   }
+  // }, [setUser, setUserID]);
 
   if (user) {
     return (

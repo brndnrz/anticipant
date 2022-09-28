@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import supabase from "../../supa";
 import { useState } from "react";
 import { useGlobalContext } from "../../context";
 
@@ -61,16 +62,55 @@ export default function Movie({
   officialReleaseDate: string;
 }) {
   const imgApi = "https://image.tmdb.org/t/p/w1280";
-  const { id, poster_path, overview } = movie;
+  const { id, poster_path, overview, title } = movie;
 
   // const [showAll, setShowAll] = useState(false);
   if (officialReleaseDate == "Date") {
     officialReleaseDate =
       "Stay Tuned! An Official US Release Date Hasn't Been Announced";
   }
+
   const [saved, setSaved] = useState(false);
   const [showButton, setShowButton] = useState(true);
-  const { handleSave, handleUnSave, user } = useGlobalContext();
+  const [movieRowId, setMovieRowId] = useState();
+
+  const { user, userID } = useGlobalContext();
+
+  const handleSave = async (
+    id: number,
+    poster_path: string,
+    title: string,
+    userID: string
+  ) => {
+    const { data, error } = await supabase
+      .from("movies")
+      .insert([
+        {
+          movie_name: `${title}`,
+          poster_path: `${poster_path}`,
+          movie_id: `${id}`,
+          user_fk: `${userID}`,
+        },
+      ])
+      .select();
+    setSaved(!saved);
+    setShowButton(!showButton);
+    if (data) {
+      setMovieRowId(data[0].id);
+    }
+    console.log("movie trailer saved successfully!");
+  };
+
+  const handleUnSave = async (movieRowId: any) => {
+    const { data, error } = await supabase
+      .from("movies")
+      .delete()
+      .match({ id: `${movieRowId}` });
+    setSaved(false);
+    setShowButton(true);
+    console.log("movie trailer removed successfully!");
+  };
+
   return (
     <>
       <div className="pageWrapper">
@@ -102,7 +142,7 @@ export default function Movie({
             </div>
             {user && showButton ? (
               <button
-                onClick={() => handleSave(id)}
+                onClick={() => handleSave(id, poster_path, title, userID)}
                 className="tooltip tooltip-bottom tooltip-success font-bold text-center bg-gradient-to-r from-yellow-300 to-yellow-500 text-black  rounded-[20px] p-[5px] w-[50%] h-[20%] mx-auto mt-[20px] cursor-pointer "
                 data-tip="Save Movie To Profile"
               >
@@ -113,7 +153,7 @@ export default function Movie({
             )}
             {saved === true ? (
               <button
-                onClick={() => handleUnSave(id)}
+                onClick={() => handleUnSave(movieRowId)}
                 className="tooltip tooltip-bottom tooltip-error font-bold bg-gradient-to-t from-green-400 to-green-600 text-black w-[50%] h-[20%] mx-auto mt-[20px] p-[5px] rounded-[20px]  text-center hover:bg-gradient-to-t hover:from-rose-400 hover:to-rose-600"
                 data-tip="Remove Movie From Profile?"
               >
@@ -124,6 +164,7 @@ export default function Movie({
             )}
           </div>
           <div className="p-[50px] mt-0 mb-[70px] text-white text-center bg-white/5 md:w-[50%] md:ml-auto md:mr-auto md:order-2 md:flex-initial">
+            <h1 className="text-[24px] mb-[5px]">{title}</h1>
             <p className="text-[12px] mt-0 mb-[20px] opacity-[.8] md:text-[16px] ">
               {officialReleaseDate}
             </p>

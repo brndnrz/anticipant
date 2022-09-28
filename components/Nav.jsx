@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { BiSearch, BiUser } from "react-icons/bi";
-import { useState } from "react";
 import { useGlobalContext } from "../context";
 
 const Nav = () => {

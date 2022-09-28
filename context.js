@@ -9,16 +9,7 @@ const AppProvider = ({ children }) => {
   const router = useRouter();
 
   const [user, setUser] = useState(null);
-  const [userUID, setUserUID] = useState(null);
-
-  // const handleUnSave = async (id) => {
-  //   setSaved(!saved);
-  //   setShowButton(!showButton);
-  // };
-
-  // const updateMoviesArray = async (id) => {};
-
-  // const fetchData = async () => {};
+  const [userID, setUserID] = useState(null);
 
   const logUserIn = async () => {
     const { user, error } = await supabase.auth.signIn({
@@ -30,14 +21,20 @@ const AppProvider = ({ children }) => {
   };
 
   supabase.auth.onAuthStateChange((event, session) => {
-    if (event == "SIGNED_IN");
-    router.push("/user");
+    if (event == "SIGNED_IN" && user === null && userID === null) {
+      setUserID(session.user.id);
+      setUser(session.user.user_metadata);
+      router.push("/user");
+    }
+    if (event == "SIGNED_OUT") {
+      router.push("/");
+      setUser(null);
+      setUserID(null);
+    }
   });
 
   const logUserOut = async () => {
     const { error } = await supabase.auth.signOut();
-    setUser(null);
-    router.push("/");
     if (error) {
       console.log(error);
     }
@@ -45,17 +42,12 @@ const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
-        // handleUnSave,
-        // fetchData,
-        // error,
-        // userData,
-        // status,
         logUserIn,
         logUserOut,
         user,
         setUser,
-        userUID,
-        setUserUID,
+        userID,
+        setUserID,
       }}
     >
       {children}

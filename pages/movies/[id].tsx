@@ -1,4 +1,5 @@
 import Image from "next/image";
+import supabase from "../../supa";
 import { useState } from "react";
 import { useGlobalContext } from "../../context";
 import { GetStaticPaths } from "next";
@@ -62,31 +63,49 @@ export default function Movie({
 
   const { title, id, poster_path, overview } = movie;
 
+  const [saved, setSaved] = useState(false);
+  const [showButton, setShowButton] = useState(true);
+  const [movieRowId, setMovieRowId] = useState();
+
   if (officialReleaseDate == "Date") {
     officialReleaseDate =
       "Stay Tuned! An Official US Release Date Hasn't Been Announced";
   }
-  const [saved, setSaved] = useState(false);
-  const [showButton, setShowButton] = useState(true);
 
-  const { handleUnSave, user, userUID } = useGlobalContext();
+  const { user, userID } = useGlobalContext();
 
-  // const checkRowStatus = async () => {
-  //   let { data: usersSavedMovies, error } = await supabase
-  //     .from("usersSavedMovies")
-  //     .select()
-  //     .eq("userUID", `'${userUID}'`);
-  // };
+  const handleSave = async (
+    id: number,
+    poster_path: string,
+    title: string,
+    userID: string
+  ) => {
+    const { data, error } = await supabase.from("movies").insert([
+      {
+        movie_name: `${title}`,
+        poster_path: `${poster_path}`,
+        movie_id: `${id}`,
+        user_fk: `${userID}`,
+      },
+    ]);
+    // .select();
 
-  const handleSave = async (id: number) => {
-    // if (checkRowStatus() === null) {
-    //   const { data, error } = await supabase
-    //     .from("usersSavedMovies")
-    //     .insert([{ movies: `{${id}}` }]);
-    //   setSaved(true);
-    // } else {
-    //   const { data, error } = await supabase.from("userSavedMovies").select();
-    // }
+    if (data) {
+      setMovieRowId(data[0].id);
+      setSaved(!saved);
+      setShowButton(!showButton);
+      console.log("movie trailer saved successfully!");
+    }
+  };
+
+  const handleUnSave = async (movieRowId: any) => {
+    const { data, error } = await supabase
+      .from("movies")
+      .delete()
+      .match({ id: `${movieRowId}` });
+    setSaved(false);
+    setShowButton(true);
+    console.log("movie trailer removed successfully!");
   };
 
   return (
@@ -120,7 +139,7 @@ export default function Movie({
             </div>
             {user && showButton ? (
               <button
-                onClick={() => handleSave(id)}
+                onClick={() => handleSave(id, poster_path, title, userID)}
                 className="tooltip tooltip-bottom tooltip-success font-bold text-center bg-gradient-to-r from-yellow-300 to-yellow-500 text-black  rounded-[20px] p-[5px] w-[50%] h-[20%] mx-auto mt-[20px] cursor-pointer "
                 data-tip="Save Movie To Profile"
               >
@@ -131,7 +150,7 @@ export default function Movie({
             )}
             {saved === true ? (
               <button
-                onClick={() => handleUnSave(id)}
+                onClick={() => handleUnSave(movieRowId)}
                 className="tooltip tooltip-bottom tooltip-error font-bold bg-gradient-to-t from-green-400 to-green-600 text-black w-[50%] h-[20%] mx-auto mt-[20px] p-[5px] rounded-[20px]  text-center hover:bg-gradient-to-t hover:from-rose-400 hover:to-rose-600"
                 data-tip="Remove Movie From Profile?"
               >
