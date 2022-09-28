@@ -60,7 +60,7 @@ export const getStaticProps = async (context: {
   const pageNum = context.params.pageID;
 
   const pageRes = await fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${pageNum}&primary_release_date.gte=${formattedDate}&primary_release_date.lte=${nextYear}-${newDate[1]}-${newDate[2]}`
+    `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${pageNum}&primary_release_date.gte=${formattedDate}&primary_release_date.lte=${nextYear}-${newDate[1]}-${newDate[2]}`
   );
 
   const pageData = await pageRes.json();

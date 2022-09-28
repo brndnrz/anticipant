@@ -308,19 +308,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
   let formattedDate = newDate.join("-");
   const [page1res, page2res, page3res, page4res, page5res] = await Promise.all([
     fetch(
-      `  https://api.themoviedb.org/3/discover/movie?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&primary_release_date.gte=${formattedDate}&primary_release_date.lte=${nextYear}-${newDate[1]}-${newDate[2]}`
+      `  https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&primary_release_date.gte=${formattedDate}&primary_release_date.lte=${nextYear}-${newDate[1]}-${newDate[2]}`
     ),
     fetch(
-      `  https://api.themoviedb.org/3/discover/movie?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&primary_release_date.gte=${formattedDate}&primary_release_date.lte=${nextYear}-${newDate[1]}-${newDate[2]}`
+      `  https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&primary_release_date.gte=${formattedDate}&primary_release_date.lte=${nextYear}-${newDate[1]}-${newDate[2]}`
     ),
     fetch(
-      `  https://api.themoviedb.org/3/discover/movie?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=3&primary_release_date.gte=${formattedDate}&primary_release_date.lte=${nextYear}-${newDate[1]}-${newDate[2]}`
+      `  https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=3&primary_release_date.gte=${formattedDate}&primary_release_date.lte=${nextYear}-${newDate[1]}-${newDate[2]}`
     ),
     fetch(
-      `  https://api.themoviedb.org/3/discover/movie?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=4&primary_release_date.gte=${formattedDate}&primary_release_date.lte=${nextYear}-${newDate[1]}-${newDate[2]}`
+      `  https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=4&primary_release_date.gte=${formattedDate}&primary_release_date.lte=${nextYear}-${newDate[1]}-${newDate[2]}`
     ),
     fetch(
-      `  https://api.themoviedb.org/3/discover/movie?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=5&primary_release_date.gte=${formattedDate}&primary_release_date.lte=${nextYear}-${newDate[1]}-${newDate[2]}`
+      `  https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=5&primary_release_date.gte=${formattedDate}&primary_release_date.lte=${nextYear}-${newDate[1]}-${newDate[2]}`
     ),
   ]);
 
@@ -369,16 +369,16 @@ export const getStaticProps = async (context: { params: { id: number } }) => {
   const id = context.params.id;
   const [movieRes, videoRes, creditsRes, releaseRes] = await Promise.all([
     fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.API_KEY}&language=en-US`
     ),
     fetch(
-      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.API_KEY}&language=en-US`
     ),
     fetch(
-      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.API_KEY}&language=en-US`
     ),
     fetch(
-      `https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=9253459cb35b70dac2252ffa068d5a6a`
+      `https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${process.env.API_KEY}`
     ),
   ]);
   const [movie, video, credits, release] = await Promise.all([
