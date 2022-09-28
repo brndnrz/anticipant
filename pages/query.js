@@ -6,13 +6,14 @@ const Query = () => {
   const [movie, setMovie] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showMovies, setShowMovies] = useState(false);
-  const SEARCH_API = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=en-US&query=${searchTerm}&page=1&include_adult=false`;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (searchTerm) {
-      const res = await fetch(SEARCH_API);
+      const res = await fetch(
+        `https://api.themoviedb.org/3/search/movie?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US&query=${searchTerm}&page=1&include_adult=false`
+      );
       const data = await res.json();
       const results = data.results;
       setMovie(results);
