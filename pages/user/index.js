@@ -1,7 +1,21 @@
 import { useGlobalContext } from "../../context";
 import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 const Index = () => {
-  const { logUserIn, logUserOut, user } = useGlobalContext();
+  const { logUserIn, logUserOut, user, buttonControlState } =
+    useGlobalContext();
+
+  const [userSavedMovies, setUserSavedMovies] = useState([]);
+  const imgApi = "https://image.tmdb.org/t/p/w1280";
+
+  useEffect(() => {
+    if (buttonControlState.length < 0) {
+      return;
+    } else {
+      setUserSavedMovies(buttonControlState);
+    }
+  }, [buttonControlState]);
 
   if (user) {
     return (
@@ -34,17 +48,31 @@ const Index = () => {
             <h3 className="text-white text-[20px] mb-[20px]">
               Your Saved Trailers:
             </h3>
-            {/* <div className="flex flex-wrap gap-[50px] items-center justify-center py-[50px] ">
-              {userData
-                ? userData.movies.map((movie) => {
-                    return (
-                      <Link href={`/search/${movie}`} key={parseInt(movie)}>
-                        <a className="w-[200px] h-[350px] border-2">{movie}</a>
-                      </Link>
-                    );
-                  })
-                : ""}
-            </div> */}
+            <div className="flex flex-wrap gap-[50px] items-center justify-center py-[50px] ">
+              {userSavedMovies.length > 0 ? (
+                userSavedMovies.map((movie) => {
+                  return (
+                    <Link
+                      href={`/search/${movie.id}`}
+                      key={parseInt(movie.movieRowId)}
+                    >
+                      <a className="w-[200px] h-[350px] border-2">
+                        <Image
+                          src={imgApi + movie.poster_path}
+                          alt="movie"
+                          width={200}
+                          height={350}
+                        />
+                      </a>
+                    </Link>
+                  );
+                })
+              ) : (
+                <div className=" w-full h-[100px] bg-white/5 flex justify-center items-center text-white text-[20px]  tracking-wider mt-[25px] mb-[50px] ml-auto mr-auto">
+                  <h1>You Haven&#39;t Saved Any Movies Yet!</h1>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </>

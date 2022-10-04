@@ -8,8 +8,49 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const router = useRouter();
 
+  let stateArr = [];
   const [user, setUser] = useState(null);
   const [userID, setUserID] = useState(null);
+  const [buttonControlState, setButtonControlState] = useState(stateArr);
+
+  const handleSave = async (id, poster_path, title, userID) => {
+    const { data, error } = await supabase.from("movies").insert([
+      {
+        movie_name: `${title}`,
+        poster_path: `${poster_path}`,
+        movie_id: `${id}`,
+        user_fk: `${userID}`,
+      },
+    ]);
+
+    if (data) {
+      let tmp = [
+        ...buttonControlState,
+        {
+          id: id,
+          anticipantActive: false,
+          showUnSave: true,
+          poster_path: poster_path,
+          movieRowId: data[0].id,
+        },
+      ];
+      setButtonControlState(tmp);
+
+      console.log("movie trailer saved successfully!");
+    }
+  };
+
+  const handleUnSave = async (id) => {
+    let tmp = buttonControlState.filter((item) => item.id === id);
+    let tmpRowId = tmp[0].movieRowId;
+    const { data, error } = await supabase
+      .from("movies")
+      .delete()
+      .match({ id: `${tmpRowId}` });
+    let filteredArr = buttonControlState.filter((item) => item.id !== id);
+    setButtonControlState(filteredArr);
+    console.log("movie trailer removed successfully!");
+  };
 
   const logUserIn = async () => {
     const { user, error } = await supabase.auth.signIn({
@@ -48,6 +89,9 @@ const AppProvider = ({ children }) => {
         setUser,
         userID,
         setUserID,
+        handleSave,
+        handleUnSave,
+        buttonControlState,
       }}
     >
       {children}
