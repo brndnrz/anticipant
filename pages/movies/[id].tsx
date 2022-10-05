@@ -345,7 +345,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 // we then get the data per page below
 
 export const getStaticProps = async (context: { params: { id: number } }) => {
-  const id = context.params.id;
+  let id = context.params.id;
+
   const [movieRes, videoRes, creditsRes, releaseRes] = await Promise.all([
     fetch(
       `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.API_KEY}&language=en-US`
