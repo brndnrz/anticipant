@@ -52,7 +52,7 @@ const AppProvider = ({ children }) => {
       setButtonControlState(filteredArr);
       console.log("movie trailer removed successfully!");
     }
-    return true;
+    // return true;
   };
 
   const logUserIn = async () => {
