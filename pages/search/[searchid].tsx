@@ -81,13 +81,18 @@ export default function Movie({
     useGlobalContext();
 
   useEffect(() => {
-    buttonControlState.map((item: any) => {
-      if (item.id === id) {
-        setShowAddButton(() => item.anticipantActive);
-        setShowRemoveButton(() => item.showUnSave);
-      }
-    });
-  }, [buttonControlState, id]);
+    if (user && buttonControlState.length > 0) {
+      buttonControlState.map((item: any) => {
+        if (item.id === id) {
+          setShowAddButton(() => item.anticipantActive);
+          setShowRemoveButton(() => item.showUnSave);
+        }
+      });
+    } else if (user && handleUnSave) {
+      setShowAddButton(true);
+      setShowRemoveButton(false);
+    }
+  }, [buttonControlState, id, handleUnSave, user]);
   return (
     <>
       <div className="pageWrapper">

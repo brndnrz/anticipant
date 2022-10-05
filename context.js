@@ -47,9 +47,12 @@ const AppProvider = ({ children }) => {
       .from("movies")
       .delete()
       .match({ id: `${tmpRowId}` });
-    let filteredArr = buttonControlState.filter((item) => item.id !== id);
-    setButtonControlState(filteredArr);
-    console.log("movie trailer removed successfully!");
+    if (data) {
+      let filteredArr = buttonControlState.filter((item) => item.id !== id);
+      setButtonControlState(filteredArr);
+      console.log("movie trailer removed successfully!");
+    }
+    return true;
   };
 
   const logUserIn = async () => {
