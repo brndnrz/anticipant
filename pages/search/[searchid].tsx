@@ -1,5 +1,4 @@
 import { GetServerSideProps } from "next";
-import supabase from "../../supa";
 import { useState, useEffect } from "react";
 import { useGlobalContext } from "../../context";
 

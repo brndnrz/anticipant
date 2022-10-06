@@ -1,5 +1,4 @@
 import Image from "next/image";
-import supabase from "../../supa";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "../../context";
 import { GetStaticPaths } from "next";
@@ -361,6 +360,7 @@ export const getStaticProps = async (context: { params: { id: number } }) => {
       `https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${process.env.API_KEY}`
     ),
   ]);
+
   const [movie, video, credits, release] = await Promise.all([
     movieRes.json(),
     videoRes.json(),
