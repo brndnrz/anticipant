@@ -344,7 +344,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 // we then get the data per page below
 
 export const getStaticProps = async (context: { params: { id: number } }) => {
-  const id = context.params.id;
+  let id;
+  if (context.params.id == 677179) {
+    id = 76600;
+  } else {
+    id = context.params.id;
+  }
 
   const [movieRes, videoRes, creditsRes, releaseRes] = await Promise.all([
     fetch(
