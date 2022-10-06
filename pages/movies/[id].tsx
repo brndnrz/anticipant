@@ -348,7 +348,8 @@ export const getStaticProps = async (context: { params: { id: number } }) => {
 
   const [movieRes, videoRes, creditsRes, releaseRes] = await Promise.all([
     fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.API_KEY}&language=en-US
+      `
     ),
     fetch(
       `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.API_KEY}&language=en-US`
