@@ -73,27 +73,18 @@ export default function Movie({
     useGlobalContext();
 
   useEffect(() => {
-    buttonControlState.map((item: any) => {
-      if (item.id === id) {
-        setShowAddButton(() => item.anticipantActive);
-        setShowRemoveButton(() => item.showUnSave);
-      }
-    });
-  }, [buttonControlState, id]);
-
-  // useEffect(() => {
-  //   if (user && buttonControlState.length > 0) {
-  //     buttonControlState.map((item: any) => {
-  //       if (item.id === id) {
-  //         setShowAddButton(() => item.anticipantActive);
-  //         setShowRemoveButton(() => item.showUnSave);
-  //       }
-  //     });
-  //   } else if (user && handleUnSave) {
-  //     setShowAddButton(true);
-  //     setShowRemoveButton(false);
-  //   }
-  // }, [buttonControlState, id, handleUnSave, user]);
+    if (user && buttonControlState.length > 0) {
+      buttonControlState.map((item: any) => {
+        if (item.id === id) {
+          setShowAddButton(() => item.anticipantActive);
+          setShowRemoveButton(() => item.showUnSave);
+        }
+      });
+    } else if (user && handleUnSave) {
+      setShowAddButton(true);
+      setShowRemoveButton(false);
+    }
+  }, [buttonControlState, id, handleUnSave, user]);
 
   return (
     <>
@@ -357,7 +348,7 @@ export const getStaticProps = async (context: { params: { id: number } }) => {
 
   const [movieRes, videoRes, creditsRes, releaseRes] = await Promise.all([
     fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.API_KEY}&language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}?api_key=9253459cb35b70dac2252ffa068d5a6a&language=en-US`
     ),
     fetch(
       `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.API_KEY}&language=en-US`
