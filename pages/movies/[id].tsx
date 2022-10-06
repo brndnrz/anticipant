@@ -73,18 +73,27 @@ export default function Movie({
     useGlobalContext();
 
   useEffect(() => {
-    if (user && buttonControlState.length > 0) {
-      buttonControlState.map((item: any) => {
-        if (item.id === id) {
-          setShowAddButton(() => item.anticipantActive);
-          setShowRemoveButton(() => item.showUnSave);
-        }
-      });
-    } else if (user && handleUnSave) {
-      setShowAddButton(true);
-      setShowRemoveButton(false);
-    }
-  }, [buttonControlState, id, handleUnSave, user]);
+    buttonControlState.map((item: any) => {
+      if (item.id === id) {
+        setShowAddButton(() => item.anticipantActive);
+        setShowRemoveButton(() => item.showUnSave);
+      }
+    });
+  }, [buttonControlState, id]);
+
+  // useEffect(() => {
+  //   if (user && buttonControlState.length > 0) {
+  //     buttonControlState.map((item: any) => {
+  //       if (item.id === id) {
+  //         setShowAddButton(() => item.anticipantActive);
+  //         setShowRemoveButton(() => item.showUnSave);
+  //       }
+  //     });
+  //   } else if (user && handleUnSave) {
+  //     setShowAddButton(true);
+  //     setShowRemoveButton(false);
+  //   }
+  // }, [buttonControlState, id, handleUnSave, user]);
 
   return (
     <>
