@@ -26,10 +26,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           name="twitter:description"
           content="The Most Anticipated Movie Trailers Coming To US Theaters. Become an Anticipant to Anticipate your saved movie trailers with full movie details including: director, cast, plot, release date, movie trailer, and movie poster all for free! "
         />
-        <meta
-          name="twitter:image"
-          content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png"
-        />
+        <meta name="twitter:image" content="/meta.png" />
 
         <meta name="og:type" content="website" />
         <meta name="og:url" content="https://anticipant.vercel.app/" />
@@ -38,10 +35,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           name="og:description"
           content="The Most Anticipated Movie Trailers Coming To US Theaters. Become an Anticipant to Anticipate your saved movie trailers with full movie details including: director, cast, plot, release date, movie trailer, and movie poster all for free! "
         />
-        <meta
-          name="og:image"
-          content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png"
-        />
+        <meta name="og:image" content="/meta.png" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <AppProvider>
