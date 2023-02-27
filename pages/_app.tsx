@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="https://metatags.io/" />
+        <meta name="twitter:url" content="https://anticipant.vercel.app/" />
         <meta
           name="twitter:title"
           content="Anticipant | Upcoming Movie Trailers"
@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         />
 
         <meta name="og:type" content="website" />
-        <meta name="og:url" content="https://metatags.io/" />
+        <meta name="og:url" content="https://anticipant.vercel.app/" />
         <meta name="og:title" content="Anticipant | Upcoming Movie Trailers" />
         <meta
           name="og:description"
