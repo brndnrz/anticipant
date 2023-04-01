@@ -152,7 +152,7 @@ export default function Movie({
             <p className="pb-[10px] text-[18px] leading-6">{overview}</p>
           </div>
           <div className="mt-[30px] mx-0 mb-[100px] px-[30px] w-screen h-[500px] bg-white/5 text-center flex items-center gap-[30px] order-4 overflow-x-auto md:order-4">
-            {director === null ? (
+            {director === null || director.profile_path === null ? (
               <div className="text-center flex  flex-col shrink-0 grow justify-center w-[180px] h-[80%]">
                 <Image
                   src="/ghost.jpg"
@@ -383,7 +383,6 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
 
   let sliced = credits.cast.slice(0, 6);
   let director = credits.crew.find((member: any) => member.job === "Director");
-
   if (director == undefined) {
     director = null;
   }

@@ -148,7 +148,7 @@ export default function Movie({
           </div>
 
           <div className="mt-[30px] mx-0 mb-[100px] px-[30px] w-screen h-[500px] bg-white/5 text-center flex items-center gap-[30px] order-4 overflow-x-auto md:order-4">
-            {director === null ? (
+            {director === null || director.profile_path === null ? (
               <div className="text-center flex  flex-col shrink-0 grow justify-center w-[180px] h-[80%]">
                 <Image
                   src="/ghost.jpg"
