@@ -107,11 +107,11 @@ const PageNum = ({ data, pageNum }: any) => {
         <div className="lg:flex lg:justify-center lg:flex-wrap lg:gap-[100px] lg:mt-[20px] lg:ml-auto lg:mr-auto">
           {data.map((movie: Movie) => {
             return (
-              <Link href={`/movies/${movie.id}`} key={movie.id}>
-                <a>
-                  <MovieCover key={movie.id} {...movie} />
-                </a>
-              </Link>
+              (<Link href={`/movies/${movie.id}`} key={movie.id}>
+
+                <MovieCover key={movie.id} {...movie} />
+
+              </Link>)
             );
           })}
         </div>

@@ -41,11 +41,11 @@ const Home: any = ({ data, sortedMovies }: { data: []; sortedMovies: [] }) => {
       </h3>
       <header className="w-[80vw] h-[300px] mb-[50px] overflow-hidden text-center flex gap-[20px] items-center overflow-x-auto ml-auto mr-auto snap-mandatory snap-x scroll-auto md:h-[350px] lg:h-[400px] ">
         {sortedMovies.map((movie: Movie) => (
-          <Link href={`/movies/${movie.id}`} key={movie.id}>
-            <a>
-              <Featured key={movie.id} {...movie} />
-            </a>
-          </Link>
+          (<Link href={`/movies/${movie.id}`} key={movie.id}>
+
+            <Featured key={movie.id} {...movie} />
+
+          </Link>)
         ))}
       </header>
 
@@ -55,11 +55,11 @@ const Home: any = ({ data, sortedMovies }: { data: []; sortedMovies: [] }) => {
         </h3>
         <div className="lg:flex lg:justify-center lg:flex-wrap lg:gap-[100px] lg:mt-[20px] lg:ml-auto lg:mr-auto">
           {data.map((movie: Movie) => (
-            <Link href={`/movies/${movie.id}`} key={movie.id}>
-              <a>
-                <MovieCover key={movie.id} {...movie} />
-              </a>
-            </Link>
+            (<Link href={`/movies/${movie.id}`} key={movie.id}>
+
+              <MovieCover key={movie.id} {...movie} />
+
+            </Link>)
           ))}
         </div>
 

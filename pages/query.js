@@ -26,41 +26,39 @@ const Query = () => {
     setSearchTerm(e.target.value);
   };
 
-  return (
-    <>
-      <div className="pageWrapper">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="search"
-            name="search"
-            id="search"
-            className="w-[400px] h-[50px] my-[30px] border-none rounded-[15px] pl-[20px] text-[20px] bg-white opacity-[.2] hover:cursor-pointer focus:outline-none focus:opacity-[.5] md:w-[600px] md:ml-auto md:mr-auto  md:flex md:flex-col md:justify-center md:items-center lg:w-[800px] lg:gap-[100px] lg:flex-row lg:flex-wrap "
-            placeholder="Search Films..."
-            value={searchTerm}
-            onChange={handleOnChange}
-          />
-        </form>
+  return <>
+    <div className="pageWrapper">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="search"
+          name="search"
+          id="search"
+          className="w-[400px] h-[50px] my-[30px] border-none rounded-[15px] pl-[20px] text-[20px] bg-white opacity-[.2] hover:cursor-pointer focus:outline-none focus:opacity-[.5] md:w-[600px] md:ml-auto md:mr-auto  md:flex md:flex-col md:justify-center md:items-center lg:w-[800px] lg:gap-[100px] lg:flex-row lg:flex-wrap "
+          placeholder="Search Films..."
+          value={searchTerm}
+          onChange={handleOnChange}
+        />
+      </form>
 
-        {showMovies ? (
-          <div className="bg-white/5 rounded-[20px] mt-[30px] pt-[60px] w-full ml-auto mr-auto flex flex-wrap justify-center gap-[60px]">
-            {movie.map((item) => (
-              <Link href={`/search/${item.id}`} key={item.id}>
-                <a>
-                  <MovieCover
-                    key={item.id}
-                    {...item}
-                    className="w-[400px] h-[500px] flex flex-col cursor-pointer"
-                  />
-                </a>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <div></div>
-        )}
-      </div>
-    </>
-  );
+      {showMovies ? (
+        <div className="bg-white/5 rounded-[20px] mt-[30px] pt-[60px] w-full ml-auto mr-auto flex flex-wrap justify-center gap-[60px]">
+          {movie.map((item) => (
+            (<Link href={`/search/${item.id}`} key={item.id}>
+
+              <MovieCover
+                key={item.id}
+                {...item}
+                className="w-[400px] h-[500px] flex flex-col cursor-pointer"
+              />
+
+            </Link>)
+          ))}
+        </div>
+      ) : (
+        <div></div>
+      )}
+    </div>
+  </>;
 };
 
 export default Query;

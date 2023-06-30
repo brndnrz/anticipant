@@ -8,7 +8,7 @@ const Nav = () => {
 
   return (
     <div className="text-white flex w-full min-h-[80px] mb-[50px] mt-[30px] ">
-      <Link href="/">
+      <Link href="/" legacyBehavior>
         <div className=" bg-white/5 ml-[30px] mr-auto w-[100px] h-[80px] rounded-[20px] flex flex-col items-center justify-center cursor-pointer">
           <Image
             src="/movie-ticket.png"
@@ -20,14 +20,14 @@ const Nav = () => {
       </Link>
 
       <div className="flex  items-center  ml-auto mr-[30px] w-[150px] ">
-        <Link href="/query">
+        <Link href="/query" legacyBehavior>
           <div>
             <BiSearch className="h-[50px] w-[60px] text-white bg-white/5 p-[10px] text-center rounded-[20px] hover:cursor-pointer" />
           </div>
         </Link>
         <div className="ml-auto text-[18px] h-[50px] w-[80px] flex items-center justify-center bg-white/5 text-center rounded-[20px] hover:cursor-pointer">
           {user != null ? (
-            <Link href="/user">
+            <Link href="/user" legacyBehavior>
               <div>
                 <BiUser className="text-[30px]" />
               </div>
