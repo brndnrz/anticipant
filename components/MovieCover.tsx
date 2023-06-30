@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 interface Movie {
   adult: boolean;
   backdrop_path: string;

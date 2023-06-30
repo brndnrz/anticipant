@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { BiSearch, BiUser } from "react-icons/bi";
 import { useGlobalContext } from "../context";
 

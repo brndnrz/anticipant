@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import { useState, useEffect } from "react";
 import { useGlobalContext } from "../../context";
 
-import Image from "next/image";
+import Image from "next/legacy/image";
 interface Movie {
   adult: boolean;
   backdrop_path: string;

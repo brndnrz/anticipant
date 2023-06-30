@@ -1,5 +1,5 @@
 import { BiUpArrowCircle } from "react-icons/bi";
-import Image from "next/image";
+import Image from "next/legacy/image";
 const Footer = () => {
   return (
     <footer className="mt-[30px] mb-[15px] w-full flex">

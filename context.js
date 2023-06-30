@@ -14,14 +14,17 @@ const AppProvider = ({ children }) => {
   const [buttonControlState, setButtonControlState] = useState(stateArr);
 
   const handleSave = async (id, poster_path, title, userID) => {
-    const { data, error } = await supabase.from("movies").insert([
-      {
-        movie_name: `${title}`,
-        poster_path: `${poster_path}`,
-        movie_id: `${id}`,
-        user_fk: `${userID}`,
-      },
-    ]);
+    const { data, error } = await supabase
+      .from("movies")
+      .insert([
+        {
+          movie_name: `${title}`,
+          poster_path: `${poster_path}`,
+          movie_id: `${id}`,
+          user_fk: `${userID}`,
+        },
+      ])
+      .select();
 
     if (data) {
       let tmp = [
@@ -38,6 +41,10 @@ const AppProvider = ({ children }) => {
 
       console.log("movie trailer saved successfully!");
     }
+
+    if (error) {
+      console.log(error);
+    }
   };
 
   const handleUnSave = async (id) => {
@@ -46,7 +53,8 @@ const AppProvider = ({ children }) => {
     const { data, error } = await supabase
       .from("movies")
       .delete()
-      .match({ id: `${tmpRowId}` });
+      .match({ id: `${tmpRowId}` })
+      .select();
     if (data) {
       let filteredArr = buttonControlState.filter((item) => item.id !== id);
       setButtonControlState(filteredArr);
@@ -56,7 +64,7 @@ const AppProvider = ({ children }) => {
   };
 
   const logUserIn = async () => {
-    const { user, error } = await supabase.auth.signIn({
+    const { user, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
     });
     if (error) {
