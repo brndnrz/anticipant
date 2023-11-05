@@ -38,8 +38,6 @@ const AppProvider = ({ children }) => {
         },
       ];
       setButtonControlState(tmp);
-
-      console.log("movie trailer saved successfully!");
     }
 
     if (error) {
@@ -67,6 +65,7 @@ const AppProvider = ({ children }) => {
     const { user, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
     });
+
     if (error) {
       console.log(error);
     }
@@ -76,6 +75,7 @@ const AppProvider = ({ children }) => {
     if (event == "SIGNED_IN" && user === null && userID === null) {
       setUserID(session.user.id);
       setUser(session.user.user_metadata);
+      getUserMovies(session.user.id);
       router.push("/user");
     }
     if (event == "SIGNED_OUT") {
@@ -84,6 +84,20 @@ const AppProvider = ({ children }) => {
       setUserID(null);
     }
   });
+
+  const getUserMovies = async (user) => {
+    const { data, error } = await supabase
+      .from("movies")
+      .select("*")
+      .eq("user_fk", user);
+    if (error) {
+      // Handle the error
+      console.log(error);
+    } else {
+      // Use the 'data' array to access the selected movies
+      setButtonControlState(data);
+    }
+  };
 
   const logUserOut = async () => {
     const { error } = await supabase.auth.signOut();

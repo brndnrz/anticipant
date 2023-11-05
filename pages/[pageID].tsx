@@ -8,6 +8,7 @@ interface Movie {
   backdrop_path: string;
   genre_ids: [number];
   id: number;
+  movie_id: number;
   original_language: string;
   original_title: string;
   overview: string;
@@ -107,11 +108,9 @@ const PageNum = ({ data, pageNum }: any) => {
         <div className="lg:flex lg:justify-center lg:flex-wrap lg:gap-[100px] lg:mt-[20px] lg:ml-auto lg:mr-auto">
           {data.map((movie: Movie) => {
             return (
-              (<Link href={`/movies/${movie.id}`} key={movie.id}>
-
-                <MovieCover key={movie.id} {...movie} />
-
-              </Link>)
+              <Link href={`/movies/${movie.movie_id}`} key={movie.movie_id}>
+                <MovieCover key={movie.movie_id} {...movie} />
+              </Link>
             );
           })}
         </div>

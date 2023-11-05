@@ -8,6 +8,7 @@ interface Movie {
   backdrop_path: string;
   genre_ids: [number];
   id: number;
+  movie_id: number;
   original_language: string;
   original_title: string;
   overview: string;
@@ -82,7 +83,7 @@ export default function Movie({
   useEffect(() => {
     if (user && buttonControlState.length > 0) {
       buttonControlState.map((item: any) => {
-        if (item.id === id) {
+        if (parseInt(item.id) === id) {
           setShowAddButton(() => item.anticipantActive);
           setShowRemoveButton(() => item.showUnSave);
         }
